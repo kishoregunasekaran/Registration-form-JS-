@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 150vh;
+            background-image: url('web_4_book.jpg');
+            background-size: cover; 
+        }
+
+        .form-container {
+            background-color: #bde6f2;
+            padding: 60px;
+            border-radius: 40px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .error-message {
+            color: red;
+        }
+
+        button[type="submit"] {
+            background-color: rgb(133, 46, 133);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border:black;
+        }
+        textarea{
+            
+            width:200px;
+        }
+        button[type="submit"]:hover {
+            background-color: brown;
+        }
+
+        label{
+            color:rgb(160, 11, 11);
+            padding-bottom:20px;
+
+    
+            
+        }
+        .colo label{
+            color:black;
+        }
+        input{
+            padding:10px;
+            background-color: rgba(237, 231, 129, 0.979);
+            color: rgb(32, 44, 44);
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1><u>Registration Form</u></h1>
+        <form id="registration-form" onsubmit="return validateForm()">
+            <p>
+                <label for="name"><b>Name:</b></label><br><br>
+                <input type="text" id="name" name="Name" placeholder="Enter your full name" onblur="validateName()" onfocus="checkPreviousInput()">
+                <div id="name-error" class="error-message"></div>
+            </p>
+            <p>
+                <label for="email"><b>Email:</b></label><br><br>
+                <input type="email" id="email" name="EMail" placeholder="Enter your email" onblur="validateName()" onfocus="checkPreviousInput('name')">
+                <div id="email-error" class="error-message"></div>
+            </p>
+            <p>
+                <label for="password"><b>Password:</b></label><br><br>
+                <input type="password" id="password" name="Password" onblur="validateName()" onfocus="checkPreviousInput('email')">
+                <div id="password-error" class="error-message"></div>
+            </p>
+            <p>
+                <label for="gender"><b>Gender:</b></label><br><br>
+                <select id="gender" name="Gender" onblur="validateName()" onfocus="checkPreviousInput('Password')">
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </p>
+            <p>
+                <label for="dob"><b>Date of Birth:</b></label><br><br>
+                <input type="date" id="dob" name="DOB" onblur="validateName()" onfocus="checkPreviousInput('Gender')">
+            </p>
+            <p>
+                <label><b>Placement Interest:</b></label><br><br>
+                <div class="colo">
+                <input type="radio" id="placement-yes" name="PlacementInterest" value="yes" onblur="validateName()" onfocus="checkPreviousInput('dob')">
+                <label for="placement-yes" class="colo">Interested</label>
+                <input type="radio" id="placement-no" name="PlacementInterest" value="no" onblur="validateName()" onfocus="checkPreviousInput('dob')">
+                <label for="placement-no" class="colo">Not Interested</label>
+                </div>
+                
+            </p>
+            <p>
+                <label><b>Willing Companies:</label><br><br>
+                <div class="colo" >
+                <input type="checkbox" id="infosys" name="Company" value="infosys">
+                <label for="infosys" class="colo">Infosys</label><br>
+                <input type="checkbox" id="zoho" name="Company" value="zoho">
+                <label for="zoho"  class="colo">Zoho</label><br>
+                <input type="checkbox" id="amazon" name="Company" value="amazon">
+                <label for="amazon"  class="colo">Amazon</label><br>
+                <input type="checkbox" id="netflix" name="Company" value="netflix">
+                <label for="netflix"  class="colo">Netflix</label><br>
+                <input type="checkbox" id="tata" name="Company" value="tata">
+                <label for="tata"  class="colo">Tata</label><br>
+                <input type="checkbox" id="reliance" name="Company" value="reliance">
+                <label for="reliance"  class="colo">Reliance</label><br>
+                </div>
+            </p>
+            <p>
+                <label for="phone"><b>Phone Number:</b></label><br><br>
+                <input type="text" id="phone" name="PhoneNumber" placeholder="Enter your phone number" onblur="validateName()" onfocus="checkPreviousInput('dob')">
+            </p>
+            <p>
+                <label for="address"><b>Address:</b></label><br><br>
+                <textarea id="address" name="Address" rows="4" placeholder="Enter your address" onblur="validateName()" onfocus="checkPreviousInput('PhoneNumber')"></textarea>
+            </p><br><br>
+            <button type="submit"><b>Register</b></button>
+        </form>
+    </div>
+
+    <script>
+        function validateForm() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const gender = document.getElementById('gender').value;
+            const dob = document.getElementById('dob').value;
+            const placementInterest = document.querySelector('input[name="PlacementInterest"]:checked');
+            const companies = document.querySelectorAll('input[name="Company"]:checked');
+            const phone = document.getElementById('phone').value;
+            const address = document.getElementById('address').value;
+
+           
+            if (name.trim() === '') {
+                document.getElementById('name-error').textContent = 'Name is required';
+                return false;
+            }
+
+            
+            if (!email.includes('@')) {
+                document.getElementById('email-error').textContent = 'Invalid email address';
+                return false;
+            }
+
+            
+            if (password.length < 6) {
+                document.getElementById('password-error').textContent = 'Password must be at least 6 characters';
+                return false;
+            }
+
+            
+            if (gender === '') {
+                alert('Please select your gender');
+                return false;
+            }
+
+            
+            if (dob === '') {
+                alert('Please enter your date of birth');
+                return false;
+            }
+
+            
+            if (!placementInterest) {
+                alert('Please indicate your placement interest');
+                return false;
+            }
+
+        
+            if (companies.length === 0) {
+                alert('Please select at least one willing company');
+                return false;
+            }
+
+            
+            if (phone.trim() === '') {
+                alert('Please enter your phone number');
+                return false;
+            }
+
+            
+            if (address.trim() === '') {
+                alert('Please enter your address');
+                return false;
+            }
+
+            
+            alert(`Name: ${name}\nEmail: ${email}\nPassword: ${password}\nGender: ${gender}\nDate of Birth: ${dob}\nPlacement Interest: ${placementInterest.value}\nWilling Companies: ${[...companies].map(company => company.value).join(', ')}\nPhone Number: ${phone}\nAddress: ${address}`);
+
+            
+            document.getElementById('name').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('gender').value = '';
+            document.getElementById('dob').value = '';
+            document.getElementById('phone').value = '';
+            document.getElementById('address').value = '';
+
+            
+            document.getElementById('name-error').textContent = '';
+            document.getElementById('email-error').textContent = '';
+            document.getElementById('password-error').textContent = '';
+
+            
+            return false;
+        }
+
+        function checkPreviousInput(previousId) {
+            if (previousId) {
+                var previousInput = document.getElementById(previousId);
+                if (previousInput.value === '') {
+                    previousInput.focus();
+                }
+            }
+        }
+
+        function validateName() {
+            const name = document.getElementById('name').value;
+            const errorDiv = document.getElementById('name-error');
+            if (name === '') {
+                errorDiv.textContent = 'Name is required';
+                return false;
+            } else {
+                errorDiv.textContent = '';
+                return true;
+            }
+        }
+    </script>
+</body>
+</html>
